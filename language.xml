@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<language>
+
+  <separators>
+
+    <string>:</string>
+    <string> </string>
+    <string>,</string>
+    <string>;</string>
+
+  </separators>
+
+  <category type = "identifiers">
+    <blacklist>
+
+      <expression>\(.*</expression>
+      <expression>\).*</expression>
+      <expression>\,.*</expression>
+      <expression>\..*</expression>
+      <expression>\-.*</expression>
+      <expression>\+.*</expression>
+      <expression>\=.*</expression>
+      <expression>\/.*</expression>
+      <expression>\*.*</expression>
+      <expression>\?.*</expression>
+      <expression>\&amp;.*</expression>
+      <expression>\%.*</expression>
+      <expression>\$.*</expression>
+      <expression>\#.*</expression>
+      <expression>\".*</expression>
+      <expression>\!.*</expression>
+      <expression>\~.*</expression>
+      <expression>\:.*</expression>
+      <expression>\;.*</expression>
+      <expression>\[.*</expression>
+      <expression>\].*</expression>
+      <expression>\{.*</expression>
+      <expression>\{.*</expression>
+      <expression>[0-9].*</expression>
+
+      <string>break</string>
+      <string>case</string>
+      <string>char</string>
+      <string>do</string>
+      <string>double</string>
+      <string>else</string>
+      <string>enum</string>
+      <string>float</string>
+      <string>for</string>
+      <string>if</string>
+      <string>int</string>
+      <string>long</string>
+      <string>return</string>
+      <string>short</string>
+      <string>signed</string>
+      <string>sizeof</string>
+      <string>static</string>
+      <string>switch</string>
+      <string>unsigned</string>
+      <string>void</string>
+      <string>while</string>
+
+    </blacklist>
+  </category>
+
+  <category type = "keywords">
+    <whitelist>
+
+      <string>break</string>
+      <string>case</string>
+      <string>char</string>
+      <string>do</string>
+      <string>double</string>
+      <string>else</string>
+      <string>enum</string>
+      <string>float</string>
+      <string>for</string>
+      <string>if</string>
+      <string>int</string>
+      <string>long</string>
+      <string>return</string>
+      <string>short</string>
+      <string>signed</string>
+      <string>sizeof</string>
+      <string>static</string>
+      <string>switch</string>
+      <string>unsigned</string>
+      <string>void</string>
+      <string>while</string>
+
+    </whitelist>
+  </category>
+
+  <category type = "operators">
+    <whitelist>
+
+      <string>+</string>
+      <string>-</string>
+      <string>*</string>
+      <string>/</string>
+      <string>%</string>
+      <string>=</string>
+      <string>!</string>
+      <string>&lt;</string>
+      <string>&gt;</string>
+      <string>&lt;=</string>
+      <string>&gt;=</string>
+      <string>==</string>
+      <string>!=</string>
+      <string>&amp;</string>
+      <string>&amp;&amp;</string>
+      <string>||</string>
+      <string>[]</string>
+      <string>~</string>
+
+    </whitelist>
+  </category>
+
+  <category type = "constants">
+    <whitelist>
+
+      <expression>\\#+.*</expression>
+
+    </whitelist>
+  </category>
+
+  <category type = "comments">
+    <whitelist>
+
+      <expression>\$.*</expression>
+      <expression>\$.*\$</expression>
+
+    </whitelist>
+  </category>
+
+</language>
