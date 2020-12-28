@@ -10,13 +10,7 @@ public:
 	Lexicon(const char* filepath);
 	~Lexicon();
 	
-	enum class AnalysisResult 
-	{ 
-		FAILURE = false, 
-		SUCCESS = true
-	};
-	
-	AnalysisResult AnalyzeFile(std::string& inputFilepath, std::string& outputFilepath);
+	void AnalyzeFile(std::string& inputFilepath, std::string& outputFilepath);
 
 private:
 	

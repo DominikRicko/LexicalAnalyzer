@@ -4,7 +4,7 @@
 
 #include "LexicalCategory.h"
 #include "LexicalExpression.h"
-
+#include "OccuranceCounter.h"
 
 static LexicalCategory findSeparators(std::list<LexicalCategory> categories) {
 
@@ -27,13 +27,12 @@ static LexicalCategory findSeparators(std::list<LexicalCategory> categories) {
 
 static std::list<std::string> splitter(LexicalCategory& separators, std::string content) {
 
-	//Iteratori ne mogu ovaj kompleksni zadatak napraviti, a i gubi se informacija o kojem seperatoru je riječ
-	//napraviti strukturu i u njoj tr...
-	//ustvari, napraviti ovo, ali nakon svake iteracije staviti seperatore u vektor između elemenata vektora
-
 	std::list<std::string> split_content;
+	bool noSplit = true;
 	
 	for (unsigned int contentIndex = 0; contentIndex < content.length(); contentIndex++) {
+
+		bool noSplit = true;
 
 		for (unsigned int i = 0; i < separators.getSize(false); i++) {
 
@@ -44,15 +43,20 @@ static std::list<std::string> splitter(LexicalCategory& separators, std::string 
 			if (separator.check(checkString.c_str())) {
 
 				std::string word = content.substr(0, contentIndex);
-				split_content.push_back(word);
+
+				if (!word.empty()) split_content.push_back(word);
+
 				split_content.push_back(checkString);
 				content = content.substr(contentIndex + separator.getExpressionLength(), content.length() - 1);
 				contentIndex = 0;
+				noSplit = false;
 			}
 
 		}
 
 	}
+
+	if (noSplit && !content.empty()) split_content.push_back(content);
 
 	return split_content;
 }
@@ -138,14 +142,13 @@ Lexicon::~Lexicon()
 
 }
 
-Lexicon::AnalysisResult Lexicon::AnalyzeFile(std::string& inputFilepath, std::string& outputFilepath)
+void Lexicon::AnalyzeFile(std::string& inputFilepath, std::string& outputFilepath)
 {
 	int lineCounter = 0;
-	Lexicon::AnalysisResult result = Lexicon::AnalysisResult::FAILURE;
-
 	std::string line;
 	std::ifstream inputFile(inputFilepath, std::ios::in);
 	std::ofstream outputFile(outputFilepath, std::ios::out);
+	OccuranceCounter occuranceCounter;
 
 	if (!inputFile.is_open())
 		throw std::exception("Provided input file could not be opened.");
@@ -173,6 +176,9 @@ Lexicon::AnalysisResult Lexicon::AnalyzeFile(std::string& inputFilepath, std::st
 
 					outputFile << "(\'" << word <<"\', " << category.getName() << ")" << std::endl;
 					foundCategory = true;
+					if(!occuranceCounter.observe(word)) 
+						occuranceCounter.addString(word, 1, category.getName());
+
 				}
 
 			}
@@ -180,19 +186,58 @@ Lexicon::AnalysisResult Lexicon::AnalyzeFile(std::string& inputFilepath, std::st
 			if (!foundCategory) {
 
 				outputFile << "(\'" << word << "\', " << "unknown or value" << ")" << std::endl;
+				if (!occuranceCounter.observe(word))
+					occuranceCounter.addString(word, 1, "unknown");
 			}
 				
 		}
+		outputFile << std::endl;
 
-		//lexicalUnitsCounter povečanje za bla bal
-		//za svaki znak nači leksičku kategoriju te to ispisati kao "('znak', leksička_kategorija)\n"
-		//std::string word = line.substr();
+	}
+
+	outputFile << std::endl;
+
+	for (auto category : categoryList) {
+
+		auto categorizedStrings = occuranceCounter.getCategoryStrings(category.getName());
+
+		outputFile << std::endl << "- " << category.getName() << " [";
+		unsigned int count = 0;
+
+		for (auto dataPair : categorizedStrings) 	
+			count += dataPair.second;
+
+		outputFile << count << "]:";
+		
+		for (auto dataPair : categorizedStrings) {
+
+			outputFile << " \'" << dataPair.first << "\' [" << dataPair.second << "],";
+
+		}
+
+		outputFile << std::endl;
 
 	}
 	
+	auto categorizedStrings = occuranceCounter.getCategoryStrings("unknown");
+
+	outputFile << std::endl << "- " << "unknown" << " [";
+	unsigned int count = 0;
+
+	for (auto dataPair : categorizedStrings)
+		count += dataPair.second;
+
+	outputFile << count << "]:";
+
+	for (auto dataPair : categorizedStrings) {
+
+		outputFile << " \'" << dataPair.first << "\' [" << dataPair.second << "],";
+
+	}
+
+	outputFile << std::endl;
+
 	inputFile.close();
 	outputFile.close();
-
-	return result;
 
 }

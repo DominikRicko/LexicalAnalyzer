@@ -143,11 +143,13 @@
     <ClCompile Include="LexicalCategory.cpp" />
     <ClCompile Include="LexicalExpression.cpp" />
     <ClCompile Include="Lexicon.cpp" />
+    <ClCompile Include="OccuranceCounter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="LexicalCategory.h" />
     <ClInclude Include="LexicalExpression.h" />
     <ClInclude Include="Lexicon.h" />
+    <ClInclude Include="OccuranceCounter.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

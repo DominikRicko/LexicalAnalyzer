@@ -7,6 +7,7 @@
       <string>:</string>
       <string>\s</string> <!--whitespace-->
       <string>,</string>
+      <string>\t</string> <!--tabulation-->
       <string>;</string>
     </whitelist>
   </category>
@@ -36,13 +37,14 @@
       <expression>\[.*</expression>
       <expression>\].*</expression>
       <expression>\{.*</expression>
-      <expression>\{.*</expression>
+      <expression>\}.*</expression>
       <expression>[0-9].*</expression>
       
       <expression>\s.*</expression>
       <expression>:.*</expression>
       <expression>;.*</expression>
       <expression>,.*</expression>
+      <expression>\t.*</expression>
 
       <string>break</string>
       <string>case</string>
@@ -99,7 +101,7 @@
 
   <category type = "operators">
     <whitelist>
-<!--+ and * have to have an escape sign in front. regardless of it being a string.-->
+<!--strings still have to escape regex characters-->
       <string>\+</string>
       <string>-</string>
       <string>\*</string>
@@ -115,7 +117,7 @@
       <string>!=</string>
       <string>&amp;</string>
       <string>&amp;&amp;</string>
-      <string>||</string>
+      <string>\|\|</string>
       <string>[]</string>
       <string>~</string>
 

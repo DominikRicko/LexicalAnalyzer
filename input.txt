@@ -1,1 +1,13 @@
-if 10 - 20 then return 0;
+a
+b
+
+float getSomething ( float x ) {
+	return x * 3;
+}
+
+int main ( ) {
+	int c = 3;
+	float b = 3.33;
+	c ++;
+	c += ( int ) getSomething ( b );
+}

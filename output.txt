@@ -1,15 +1,118 @@
-line 1: if 10 - 20 then return 0;
-('if', keywords)
+line 1: a
+('a', identifiers)
+
+line 2: b
+('b', identifiers)
+
+line 3: 
+
+line 4: float getSomething ( float x ) {
+('float', keywords)
 (' ', separators)
-('10', unknown or value)
+('getSomething', identifiers)
 (' ', separators)
-('-', operators)
+('(', unknown or value)
 (' ', separators)
-('20', unknown or value)
+('float', keywords)
 (' ', separators)
-('then', identifiers)
+('x', identifiers)
 (' ', separators)
+(')', unknown or value)
+(' ', separators)
+('{', unknown or value)
+
+line 5: 	return x * 3;
+('	', separators)
 ('return', keywords)
 (' ', separators)
-('0', unknown or value)
+('x', identifiers)
+(' ', separators)
+('*', operators)
+(' ', separators)
+('3', unknown or value)
 (';', separators)
+
+line 6: }
+('}', unknown or value)
+
+line 7: 
+
+line 8: int main ( ) {
+('int', keywords)
+(' ', separators)
+('main', identifiers)
+(' ', separators)
+('(', unknown or value)
+(' ', separators)
+(')', unknown or value)
+(' ', separators)
+('{', unknown or value)
+
+line 9: 	int c = 3;
+('	', separators)
+('int', keywords)
+(' ', separators)
+('c', identifiers)
+(' ', separators)
+('=', operators)
+(' ', separators)
+('3', unknown or value)
+(';', separators)
+
+line 10: 	float b = 3.33;
+('	', separators)
+('float', keywords)
+(' ', separators)
+('b', identifiers)
+(' ', separators)
+('=', operators)
+(' ', separators)
+('3.33', unknown or value)
+(';', separators)
+
+line 11: 	c ++;
+('	', separators)
+('c', identifiers)
+(' ', separators)
+('++', unknown or value)
+(';', separators)
+
+line 12: 	c += ( int ) getSomething ( b );
+('	', separators)
+('c', identifiers)
+(' ', separators)
+('+=', unknown or value)
+(' ', separators)
+('(', unknown or value)
+(' ', separators)
+('int', keywords)
+(' ', separators)
+(')', unknown or value)
+(' ', separators)
+('getSomething', identifiers)
+(' ', separators)
+('(', unknown or value)
+(' ', separators)
+('b', identifiers)
+(' ', separators)
+(')', unknown or value)
+(';', separators)
+
+line 13: }
+('}', unknown or value)
+
+
+
+- separators [38]: ' ' [28], '	' [5], ';' [5],
+
+- identifiers [12]: 'a' [1], 'b' [3], 'getSomething' [2], 'x' [2], 'main' [1], 'c' [3],
+
+- keywords [7]: 'float' [3], 'return' [1], 'int' [3],
+
+- operators [3]: '*' [1], '=' [2],
+
+- constants [0]:
+
+- comments [0]:
+
+- unknown [17]: '(' [4], ')' [4], '{' [2], '3' [2], '}' [2], '3.33' [1], '++' [1], '+=' [1],

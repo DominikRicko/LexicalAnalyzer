@@ -11,7 +11,6 @@ int main(int argc, char* argv[]) {
 	std::string languageFilename;
 	std::string inputFilename;
 	std::string outputFilename;
-	Lexicon::AnalysisResult result = Lexicon::AnalysisResult::FAILURE;
 
 	parseArguments(argc, argv, languageFilename, inputFilename, outputFilename);
 
@@ -20,7 +19,7 @@ int main(int argc, char* argv[]) {
 	try {
 
 		Lexicon lexicon(languageFilename.c_str());
-		result = lexicon.AnalyzeFile(inputFilename, outputFilename);
+		lexicon.AnalyzeFile(inputFilename, outputFilename);
 
 	}
 	catch (std::exception& e)
@@ -30,7 +29,7 @@ int main(int argc, char* argv[]) {
 		
 	}
 
-	std::cout << "\n\nAnalysis was " << ((result == Lexicon::AnalysisResult::SUCCESS) ? (" ") : ("not ")) << "successful." << std::endl;
+	std::cout << "\n\nAnalysis complete." << std::endl;
 
 	return 0;
 }
