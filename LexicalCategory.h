@@ -8,20 +8,23 @@ class LexicalCategory
 
 public:
 
-	LexicalCategory(const char* name);
+	LexicalCategory(std::string name, bool isSeparators);
 	~LexicalCategory();
 
-	const char* getName();
+	std::string getName();
 	bool check(const char* text);
-	std::string identify(const char* text);
-	void addExpression(LexicalExpression expression);
-	
+	void addExpression(LexicalExpression expression, bool isBlacklist);
+	LexicalExpression get(unsigned int index, bool isBlacklist);
+	unsigned int getSize(bool isBlacklist);
+	bool isSeparator();
 
 private:
 
 	bool sorted;
-	const char* name;
-	std::list<LexicalExpression> expressionList;
+	std::string name;
+	std::list<LexicalExpression> whitelist;
+	std::list<LexicalExpression> blacklist;
+	bool isSeparators;
 
 };
 

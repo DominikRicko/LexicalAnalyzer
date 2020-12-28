@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8" standalone="no" ?>
 <language>
-
-  <separators>
-
-    <string>:</string>
-    <string> </string>
-    <string>,</string>
-    <string>;</string>
-
-  </separators>
-
+  
+<!--MUST HAVE SEPARATORS CATEGORY-->
+  <category type="separators" separators="true">
+    <whitelist>
+      <string>:</string>
+      <string>\s</string> <!--whitespace-->
+      <string>,</string>
+      <string>;</string>
+    </whitelist>
+  </category>
+  <!--everything else is optional-->
   <category type = "identifiers">
     <blacklist>
 
@@ -37,6 +38,11 @@
       <expression>\{.*</expression>
       <expression>\{.*</expression>
       <expression>[0-9].*</expression>
+      
+      <expression>\s.*</expression>
+      <expression>:.*</expression>
+      <expression>;.*</expression>
+      <expression>,.*</expression>
 
       <string>break</string>
       <string>case</string>
@@ -93,10 +99,10 @@
 
   <category type = "operators">
     <whitelist>
-
-      <string>+</string>
+<!--+ and * have to have an escape sign in front. regardless of it being a string.-->
+      <string>\+</string>
       <string>-</string>
-      <string>*</string>
+      <string>\*</string>
       <string>/</string>
       <string>%</string>
       <string>=</string>
@@ -119,7 +125,7 @@
   <category type = "constants">
     <whitelist>
 
-      <expression>\\#+.*</expression>
+      <expression>\#+.*</expression>
 
     </whitelist>
   </category>

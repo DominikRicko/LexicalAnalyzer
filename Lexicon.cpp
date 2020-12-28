@@ -5,42 +5,71 @@
 #include "LexicalCategory.h"
 #include "LexicalExpression.h"
 
-//Some black magic from 
-//https://stackoverflow.com/questions/4533652/how-to-split-string-using-istringstream-with-other-delimiter-than-whitespace/44359475
 
-std::vector<std::string> splitter(std::string in_pattern, std::string& content) {
-	std::vector<std::string> split_content;
+static LexicalCategory findSeparators(std::list<LexicalCategory> categories) {
 
-	std::regex pattern(in_pattern);
-	copy(std::sregex_token_iterator(content.begin(), content.end(), pattern, -1), 
-		std::sregex_token_iterator(), back_inserter(split_content));
+	for (auto category : categories) {
+
+		if (category.isSeparator()) {
+
+			return category;
+
+		}
+
+	}
+
+	LexicalCategory defaultSeparators("separator", true);
+	LexicalExpression defaultSeparator(" ", false);
+	defaultSeparators.addExpression(defaultSeparator,false);
+	return defaultSeparators;
+
+}
+
+static std::list<std::string> splitter(LexicalCategory& separators, std::string content) {
+
+	//Iteratori ne mogu ovaj kompleksni zadatak napraviti, a i gubi se informacija o kojem seperatoru je riječ
+	//napraviti strukturu i u njoj tr...
+	//ustvari, napraviti ovo, ali nakon svake iteracije staviti seperatore u vektor između elemenata vektora
+
+	std::list<std::string> split_content;
+	
+	for (unsigned int contentIndex = 0; contentIndex < content.length(); contentIndex++) {
+
+		for (unsigned int i = 0; i < separators.getSize(false); i++) {
+
+			LexicalExpression separator = separators.get(i, false);
+
+			std::string checkString = content.substr(contentIndex, separator.getExpressionLength());
+
+			if (separator.check(checkString.c_str())) {
+
+				std::string word = content.substr(0, contentIndex);
+				split_content.push_back(word);
+				split_content.push_back(checkString);
+				content = content.substr(contentIndex + separator.getExpressionLength(), content.length() - 1);
+				contentIndex = 0;
+			}
+
+		}
+
+	}
+
 	return split_content;
 }
 
 Lexicon::Lexicon(const char* filepath)
 {
-	this->maxExpressionLength = 0;
-
 	pugi::xml_document lexicalDefinitions;
 	
 	if (lexicalDefinitions.load_file(filepath).status != pugi::status_ok)
 		throw std::exception("Error opening language file.");
-	
-	pugi::xml_node separatorsNode = lexicalDefinitions.child("separators");
-
-	for (pugi::xml_node seperator : separatorsNode)
-	{
-
-		this->separators.push_back(seperator.value());
-
-	}
 
 	pugi::xml_node language = lexicalDefinitions.child("language");
 
 	for (pugi::xml_node category : language.children("category"))
 	{
 
-		LexicalCategory lexicalCategory = LexicalCategory(category.attribute("type").name());
+		LexicalCategory lexicalCategory = LexicalCategory(category.attribute("type").value(),category.attribute("separators").as_bool());
 		
 		for (pugi::xml_node blacklist : category.children("blacklist")) 
 		{
@@ -48,16 +77,23 @@ Lexicon::Lexicon(const char* filepath)
 			for (pugi::xml_node expression : blacklist.children("expression"))
 			{
 
-				LexicalExpression lexicalExpression = LexicalExpression(expression.value(), true);
-				lexicalCategory.addExpression(lexicalExpression);
+				for (auto expressionNode : expression) {
+
+					LexicalExpression lexicalExpression = LexicalExpression(expressionNode.text().as_string(), true);
+					lexicalCategory.addExpression(lexicalExpression,true);
+
+				}
 			}
 
 			for (pugi::xml_node expression : blacklist.children("string"))
 			{
 			
-				LexicalExpression lexicalExpression = LexicalExpression('('+expression.value()+')', true);
-				lexicalCategory.addExpression(lexicalExpression);
+				for (auto expressionNode : expression) {
 
+					LexicalExpression lexicalExpression = LexicalExpression(expressionNode.text().as_string(), false);
+					lexicalCategory.addExpression(lexicalExpression,true);
+
+				}
 			}
 
 		}
@@ -68,15 +104,22 @@ Lexicon::Lexicon(const char* filepath)
 			for (pugi::xml_node expression : whitelist.children("expression"))
 			{
 
-				LexicalExpression lexicalExpression = LexicalExpression(expression.value(), false);
-				lexicalCategory.addExpression(lexicalExpression);
+				for (auto expressionNode : expression) {
+
+					LexicalExpression lexicalExpression = LexicalExpression(expressionNode.text().as_string(), true);
+					lexicalCategory.addExpression(lexicalExpression,false);
+
+				}
 			}
 
 			for (pugi::xml_node expression : whitelist.children("string"))
 			{
+				for (auto expressionNode : expression) {
 
-				LexicalExpression lexicalExpression = LexicalExpression('(' + expression.value() + ')', false);
-				lexicalCategory.addExpression(lexicalExpression);
+					LexicalExpression lexicalExpression = LexicalExpression(expressionNode.text().as_string(), false);
+					lexicalCategory.addExpression(lexicalExpression,false);
+
+				}
 
 			}
 
@@ -92,7 +135,6 @@ Lexicon::~Lexicon()
 {
 
 	this->categoryList.clear();
-	this->separators.clear();
 
 }
 
@@ -111,20 +153,36 @@ Lexicon::AnalysisResult Lexicon::AnalyzeFile(std::string& inputFilepath, std::st
 	if (!outputFile.is_open())
 		throw std::exception("Provided output file could not be opened.");
 	
+	LexicalCategory separators = findSeparators(this->categoryList);
+
 	while (std::getline(inputFile, line))
 	{
-	
-		std::string identifiedString = line;
 
-		for (LexicalCategory category : this->categoryList)
-			identifiedString = category.identify(identifiedString.c_str());
+		std::list<std::string> separatedStrings(splitter(separators, line));
 
 		lineCounter++;
-		outputFile << "line " + std::to_string(lineCounter) + ": " + line;
-		
-		//treba podijeliti line
+		outputFile << "line " + std::to_string(lineCounter) + ": " + line << std::endl;
 
-		outputFile << "" << std::endl;
+		for (auto word : separatedStrings) {
+
+			bool foundCategory = false;
+
+			for (LexicalCategory category : this->categoryList) {
+
+				if (category.check(word.c_str())) {
+
+					outputFile << "(\'" << word <<"\', " << category.getName() << ")" << std::endl;
+					foundCategory = true;
+				}
+
+			}
+
+			if (!foundCategory) {
+
+				outputFile << "(\'" << word << "\', " << "unknown or value" << ")" << std::endl;
+			}
+				
+		}
 
 		//lexicalUnitsCounter povečanje za bla bal
 		//za svaki znak nači leksičku kategoriju te to ispisati kao "('znak', leksička_kategorija)\n"

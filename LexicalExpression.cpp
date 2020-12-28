@@ -1,30 +1,46 @@
 #include "LexicalExpression.h"
 #include <regex>
 
-LexicalExpression::LexicalExpression(const char* expression, bool blacklist)
+LexicalExpression::LexicalExpression(const char* expression, bool isExpression)
 {
-	this->expressionLength = std::string(expression).length();
-	this->expression = std::regex(expression);
-	this->blacklist = blacklist;
+
+	if (!isExpression) {
+
+		this->expressionString = "(";
+		this->expressionString.append(expression).append(")");
+		this->expression = std::regex(this->expressionString);
+
+	}
+	else {
+
+		this->expression = std::regex(expression);
+
+	}
+
+	this->expressionString = expression;
+
+	int counter = 0;
+	for (int i = 0; i < expressionString.length(); i++) if (expressionString[i] != '\\') counter++;
+
+	this->expressionLength = counter;
 
 }
 
 bool LexicalExpression::check(const char* text)
 {
 
-	return this->blacklist^std::regex_match(text, this->expression);
-
-}
-
-std::string LexicalExpression::replace(const char* text, const char* replaceText)
-{
-	
-	return std::regex_replace(text, this->expression, replaceText);
+	return std::regex_match(text, this->expression);
 
 }
 
 int LexicalExpression::getExpressionLength() {
 
 	return this->expressionLength;
+
+}
+
+std::string LexicalExpression::getExpression() {
+
+	return this->expressionString;
 
 }

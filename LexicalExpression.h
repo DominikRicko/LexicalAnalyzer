@@ -6,17 +6,17 @@ class LexicalExpression
 
 public:
 
-	LexicalExpression(const char* expression, bool blacklist);
+	LexicalExpression(const char* expression, bool isExpression);
 
 	bool check(const char* text);
-	std::string replace(const char* text, const char* replaceText);
-	
 	int getExpressionLength();
+	std::string getExpression();
+
 private:
 
 	int expressionLength;
-	bool blacklist;
 	std::regex expression;
+	std::string expressionString;
 	
 };
 

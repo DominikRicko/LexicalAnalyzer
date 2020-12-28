@@ -15,14 +15,12 @@ public:
 		FAILURE = false, 
 		SUCCESS = true
 	};
-
+	
 	AnalysisResult AnalyzeFile(std::string& inputFilepath, std::string& outputFilepath);
 
 private:
 	
-	std::list<std::string> separators;
 	std::list<LexicalCategory> categoryList;
-	int maxExpressionLength;
 
 };
 

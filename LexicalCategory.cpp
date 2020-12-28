@@ -7,75 +7,94 @@ static bool lexicalExpressionCompareLength(LexicalExpression& a, LexicalExpressi
 
 }
 
-static bool sortExpressions(std::list<LexicalExpression>& expressionList) {
+static void sortExpressions(std::list<LexicalExpression>& expressionList) {
 	expressionList.sort(lexicalExpressionCompareLength);
 }
 
 bool LexicalCategory::check(const char* text) 
 {
 
-	bool result = true;
+	bool result = false;
+	bool whitelistExists = false;
 
 	if (!this->sorted) {
 
-		sortExpressions(this->expressionList);
+		sortExpressions(this->whitelist);
+		sortExpressions(this->blacklist);
 		this->sorted = true;
 
 	}
 
-	for (LexicalExpression expression : this->expressionList)
+	for (LexicalExpression expression : this->whitelist)
 	{
 
-		result &= expression.check(text);
+		result |= expression.check(text);
+		whitelistExists = true;
+	}
+
+	if (!result && whitelistExists) return false;
+
+	result = true;
+
+	for (LexicalExpression expression : this->blacklist) 
+	{
+
+		result &= !expression.check(text);
 
 	}
 
 	return result;
 }
 
-const char* LexicalCategory::getName() 
+std::string LexicalCategory::getName() 
 {
 
 	return this->name;
 
 }
 
-void LexicalCategory::addExpression(LexicalExpression expression) {
+void LexicalCategory::addExpression(LexicalExpression expression, bool isBlacklist) {
 
-	this->expressionList.push_back(expression);
+	if (isBlacklist) this->blacklist.push_back(expression);
+	else this->whitelist.push_back(expression);
+
 	this->sorted = false;
-
-}
-
-std::string LexicalCategory::identify(const char* text)
-{
-
-	std::string tempText(text);
-
-	if (!this->sorted) {
-
-		sortExpressions(this->expressionList);
-		this->sorted = true;
-
-	}
-
-	for (LexicalExpression expression : this->expressionList)
-	{
-
-		tempText = expression.replace(tempText.c_str(), ' ' + (this->name) + ' ');
-
-	}
-
-	return tempText;
 
 }
 
 LexicalCategory::~LexicalCategory() {
+
+	this->blacklist.clear();
+	this->whitelist.clear();
+
 }
 
-LexicalCategory::LexicalCategory(const char* name) {
+LexicalCategory::LexicalCategory(std::string name, bool isSeparators) {
 
 	this->name = name;
 	this->sorted = false;
+	this->isSeparators = isSeparators;
+
+}
+
+LexicalExpression LexicalCategory::get(unsigned int index, bool isBlacklist) {
+
+	auto iterator = ((isBlacklist)?(this->blacklist):(this->whitelist)).begin();
+
+	for (int counter = 0; counter < index; counter++, iterator++);
+
+	return *iterator;
+
+}
+
+unsigned int LexicalCategory::getSize(bool isBlacklist) {
+
+	return ((isBlacklist) ? (this->blacklist.size()) : (whitelist.size()));
+
+}
+
+bool LexicalCategory::isSeparator() {
+
+	return this->isSeparators;
 
 }
