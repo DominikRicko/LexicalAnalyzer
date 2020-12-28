@@ -6,11 +6,11 @@
 #include "LexicalExpression.h"
 #include "OccuranceCounter.h"
 
-static LexicalCategory findSeparators(std::list<LexicalCategory> categories) {
+static LexicalCategory findSpecificCategory(std::list<LexicalCategory> categories, std::string categoryName) {
 
 	for (auto category : categories) {
 
-		if (category.isSeparator()) {
+		if (std::regex_match(category.getName(),std::regex(categoryName))) {
 
 			return category;
 
@@ -18,14 +18,14 @@ static LexicalCategory findSeparators(std::list<LexicalCategory> categories) {
 
 	}
 
-	LexicalCategory defaultSeparators("separator", true);
+	LexicalCategory defaultSeparators("separator");
 	LexicalExpression defaultSeparator(" ", false);
 	defaultSeparators.addExpression(defaultSeparator,false);
 	return defaultSeparators;
 
 }
 
-static std::list<std::string> splitter(LexicalCategory& separators, std::string content) {
+static std::list<std::string> splitter(LexicalCategory& separators, LexicalCategory& comments, std::string content) {
 
 	std::list<std::string> split_content;
 	bool noSplit = true;
@@ -34,10 +34,35 @@ static std::list<std::string> splitter(LexicalCategory& separators, std::string 
 
 		bool noSplit = true;
 
+		for (unsigned int i = 0; i < comments.getSize(false); i++) {
+
+			LexicalExpression comment = comments.get(i, false);
+			std::string checkString = content.substr(contentIndex, comment.getExpressionLength());
+
+			if (comment.check(checkString.c_str())) {
+
+				std::string word = content.substr(0, contentIndex);
+
+				if (!word.empty()) {
+
+					split_content.push_back(word);
+
+				}
+
+				content = content.substr(contentIndex, content.length());
+				split_content.push_back(content);
+				content = "";
+
+				contentIndex = 0;
+				noSplit = false;
+
+			}
+
+		}
+
 		for (unsigned int i = 0; i < separators.getSize(false); i++) {
 
 			LexicalExpression separator = separators.get(i, false);
-
 			std::string checkString = content.substr(contentIndex, separator.getExpressionLength());
 
 			if (separator.check(checkString.c_str())) {
@@ -73,7 +98,7 @@ Lexicon::Lexicon(const char* filepath)
 	for (pugi::xml_node category : language.children("category"))
 	{
 
-		LexicalCategory lexicalCategory = LexicalCategory(category.attribute("type").value(),category.attribute("separators").as_bool());
+		LexicalCategory lexicalCategory = LexicalCategory(category.attribute("type").value());
 		
 		for (pugi::xml_node blacklist : category.children("blacklist")) 
 		{
@@ -156,12 +181,13 @@ void Lexicon::AnalyzeFile(std::string& inputFilepath, std::string& outputFilepat
 	if (!outputFile.is_open())
 		throw std::exception("Provided output file could not be opened.");
 	
-	LexicalCategory separators = findSeparators(this->categoryList);
+	LexicalCategory separators = findSpecificCategory(this->categoryList, "separators");
+	LexicalCategory comments = findSpecificCategory(this->categoryList, "comments");
 
 	while (std::getline(inputFile, line))
 	{
 
-		std::list<std::string> separatedStrings(splitter(separators, line));
+		std::list<std::string> separatedStrings(splitter(separators, comments, line));
 
 		lineCounter++;
 		outputFile << "line " + std::to_string(lineCounter) + ": " + line << std::endl;

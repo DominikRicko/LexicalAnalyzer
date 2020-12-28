@@ -1,0 +1,78 @@
+line 1: break
+('break', keywords)
+
+line 2: case
+('case', keywords)
+
+line 3: char
+('char', keywords)
+
+line 4: do
+('do', keywords)
+
+line 5: double
+('double', keywords)
+
+line 6: else
+('else', keywords)
+
+line 7: enum
+('enum', keywords)
+
+line 8: float
+('float', keywords)
+
+line 9: for
+('for', keywords)
+
+line 10: if
+('if', keywords)
+
+line 11: int
+('int', keywords)
+
+line 12: long
+('long', keywords)
+
+line 13: return
+('return', keywords)
+
+line 14: short
+('short', keywords)
+
+line 15: signed
+('signed', keywords)
+
+line 16: sizeof
+('sizeof', operators)
+
+line 17: static
+('static', keywords)
+
+line 18: switch
+('switch', keywords)
+
+line 19: unsigned
+('unsigned', keywords)
+
+line 20: void
+('void', keywords)
+
+line 21: while
+('while', keywords)
+
+
+
+- separators [0]:
+
+- identifiers [0]:
+
+- keywords [20]: 'break' [1], 'case' [1], 'char' [1], 'do' [1], 'double' [1], 'else' [1], 'enum' [1], 'float' [1], 'for' [1], 'if' [1], 'int' [1], 'long' [1], 'return' [1], 'short' [1], 'signed' [1], 'static' [1], 'switch' [1], 'unsigned' [1], 'void' [1], 'while' [1],
+
+- operators [1]: 'sizeof' [1],
+
+- constants [0]:
+
+- comments [0]:
+
+- unknown [0]:

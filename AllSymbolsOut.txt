@@ -1,0 +1,105 @@
+line 1: +
+('+', operators)
+
+line 2: -
+('-', operators)
+
+line 3: *
+('*', operators)
+
+line 4: /
+('/', operators)
+
+line 5: ?
+('?', unknown or value)
+
+line 6: =
+('=', operators)
+
+line 7: )
+(')', unknown or value)
+
+line 8: (
+('(', unknown or value)
+
+line 9: &
+('&', operators)
+
+line 10: %
+('%', operators)
+
+line 11: $
+('$', comments)
+
+line 12: #
+('#', constants)
+
+line 13: ""
+('""', unknown or value)
+
+line 14: !
+('!', operators)
+
+line 15: a
+('a', identifiers)
+
+line 16: b
+('b', identifiers)
+
+line 17: c
+('c', identifiers)
+
+line 18: d
+('d', identifiers)
+
+line 19: ,
+(',', separators)
+
+line 20: .
+('.', unknown or value)
+
+line 21: _
+('_', identifiers)
+
+line 22: ;
+(';', separators)
+
+line 23: :
+(':', separators)
+
+line 24: {
+('{', unknown or value)
+
+line 25: }
+('}', unknown or value)
+
+line 26: (
+('(', unknown or value)
+
+line 27: )
+(')', unknown or value)
+
+line 28: [
+('[', unknown or value)
+
+line 29: ]
+(']', unknown or value)
+
+line 30: |
+('|', operators)
+
+
+
+- separators [3]: ',' [1], ';' [1], ':' [1],
+
+- identifiers [5]: 'a' [1], 'b' [1], 'c' [1], 'd' [1], '_' [1],
+
+- keywords [0]:
+
+- operators [9]: '+' [1], '-' [1], '*' [1], '/' [1], '=' [1], '&' [1], '%' [1], '!' [1], '|' [1],
+
+- constants [1]: '#' [1],
+
+- comments [1]: '$' [1],
+
+- unknown [11]: '?' [1], ')' [2], '(' [2], '""' [1], '.' [1], '{' [1], '}' [1], '[' [1], ']' [1],

@@ -1,0 +1,27 @@
+line 1: #hello_world
+('#hello_world', constants)
+
+line 2: $this is a comment
+('$this is a comment', comments)
+
+line 3: $this is also a comment
+('$this is also a comment', comments)
+
+line 4: #but_this_isn't
+('#but_this_isn't', constants)
+
+
+
+- separators [0]:
+
+- comments [2]: '$this is a comment' [1], '$this is also a comment' [1],
+
+- identifiers [0]:
+
+- keywords [0]:
+
+- operators [0]:
+
+- constants [2]: '#hello_world' [1], '#but_this_isn't' [1],
+
+- unknown [0]:

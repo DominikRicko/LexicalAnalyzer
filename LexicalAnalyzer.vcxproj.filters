@@ -60,5 +60,23 @@
     <Text Include="output.txt">
       <Filter>Resource Files</Filter>
     </Text>
+    <Text Include="AllSymbols.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="AllSymbolsOut.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="Keywords.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="KeywordsOut.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="ComConstsOut.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="ComConsts.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
   </ItemGroup>
 </Project>

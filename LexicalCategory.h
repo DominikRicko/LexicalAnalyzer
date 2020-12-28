@@ -8,7 +8,7 @@ class LexicalCategory
 
 public:
 
-	LexicalCategory(std::string name, bool isSeparators);
+	LexicalCategory(std::string name);
 	~LexicalCategory();
 
 	std::string getName();
@@ -16,7 +16,6 @@ public:
 	void addExpression(LexicalExpression expression, bool isBlacklist);
 	LexicalExpression get(unsigned int index, bool isBlacklist);
 	unsigned int getSize(bool isBlacklist);
-	bool isSeparator();
 
 private:
 
@@ -24,7 +23,6 @@ private:
 	std::string name;
 	std::list<LexicalExpression> whitelist;
 	std::list<LexicalExpression> blacklist;
-	bool isSeparators;
 
 };
 

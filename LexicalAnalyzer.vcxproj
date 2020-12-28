@@ -158,7 +158,13 @@
     <Xml Include="language.xml" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="AllSymbols.txt" />
+    <Text Include="AllSymbolsOut.txt" />
+    <Text Include="ComConstsOut.txt" />
+    <Text Include="ComConsts.txt" />
     <Text Include="input.txt" />
+    <Text Include="Keywords.txt" />
+    <Text Include="KeywordsOut.txt" />
     <Text Include="output.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

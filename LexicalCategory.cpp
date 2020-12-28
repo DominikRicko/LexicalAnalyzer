@@ -69,11 +69,10 @@ LexicalCategory::~LexicalCategory() {
 
 }
 
-LexicalCategory::LexicalCategory(std::string name, bool isSeparators) {
+LexicalCategory::LexicalCategory(std::string name) {
 
 	this->name = name;
 	this->sorted = false;
-	this->isSeparators = isSeparators;
 
 }
 
@@ -90,11 +89,5 @@ LexicalExpression LexicalCategory::get(unsigned int index, bool isBlacklist) {
 unsigned int LexicalCategory::getSize(bool isBlacklist) {
 
 	return ((isBlacklist) ? (this->blacklist.size()) : (whitelist.size()));
-
-}
-
-bool LexicalCategory::isSeparator() {
-
-	return this->isSeparators;
 
 }

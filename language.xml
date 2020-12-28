@@ -2,7 +2,7 @@
 <language>
   
 <!--MUST HAVE SEPARATORS CATEGORY-->
-  <category type="separators" separators="true">
+  <category type="separators">
     <whitelist>
       <string>:</string>
       <string>\s</string> <!--whitespace-->
@@ -11,6 +11,16 @@
       <string>;</string>
     </whitelist>
   </category>
+<!--MUST HAVE COMMENTS CATEGORY-->
+  <category type = "comments">
+    <whitelist>
+      <string>\$</string>
+
+      <expression>\$.*</expression>
+    </whitelist>
+  </category>
+
+
   <!--everything else is optional-->
   <category type = "identifiers">
     <blacklist>
@@ -39,6 +49,7 @@
       <expression>\{.*</expression>
       <expression>\}.*</expression>
       <expression>[0-9].*</expression>
+      <expression>\|.*</expression>
       
       <expression>\s.*</expression>
       <expression>:.*</expression>
@@ -89,7 +100,6 @@
       <string>return</string>
       <string>short</string>
       <string>signed</string>
-      <string>sizeof</string>
       <string>static</string>
       <string>switch</string>
       <string>unsigned</string>
@@ -120,6 +130,8 @@
       <string>\|\|</string>
       <string>[]</string>
       <string>~</string>
+      <string>\|</string>
+      <string>sizeof</string>
 
     </whitelist>
   </category>
@@ -131,14 +143,4 @@
 
     </whitelist>
   </category>
-
-  <category type = "comments">
-    <whitelist>
-
-      <expression>\$.*</expression>
-      <expression>\$.*\$</expression>
-
-    </whitelist>
-  </category>
-
 </language>

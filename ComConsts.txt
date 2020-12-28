@@ -1,0 +1,4 @@
+#hello_world
+$this is a comment
+$this is also a comment
+#but_this_isn't
