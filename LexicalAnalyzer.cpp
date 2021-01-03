@@ -2,6 +2,7 @@
 #include <string>
 #include <exception>
 #include "Lexicon.h"
+#include <regex>
 
 void userPrompt(std::string& languageFilename, std::string& inputFilename, std::string& outputFilename);
 void parseArguments(int argumentCount, char* arguments[], std::string& languageFilename, std::string& inputFilename, std::string& outputFilename);
@@ -38,9 +39,14 @@ void parseArguments(int argumentCount, char* arguments[], std::string& languageF
 
 	for (int i = 1; i < argumentCount; i+=2) {
 
-		if (arguments[i] == "-l") languageFilename = arguments[i + 1];
-		if (arguments[i] == "-o") outputFilename = arguments[i + 1];
-		if (arguments[i] == "-i") inputFilename = arguments[i + 1];
+		if (std::regex_match(arguments[i], std::regex("-l")))
+			languageFilename = std::string(arguments[i + 1]);
+
+		if (std::regex_match(arguments[i], std::regex("-o")))
+			outputFilename = std::string(arguments[i + 1]);
+
+		if (std::regex_match(arguments[i], std::regex("-i")))
+			inputFilename = std::string(arguments[i + 1]);
 
 	}
 

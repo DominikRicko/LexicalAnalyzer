@@ -105,6 +105,8 @@ line 13: }
 
 - separators [38]: ' ' [28], '	' [5], ';' [5],
 
+- comments [0]:
+
 - identifiers [12]: 'a' [1], 'b' [3], 'getSomething' [2], 'x' [2], 'main' [1], 'c' [3],
 
 - keywords [7]: 'float' [3], 'return' [1], 'int' [3],
@@ -112,7 +114,5 @@ line 13: }
 - operators [3]: '*' [1], '=' [2],
 
 - constants [0]:
-
-- comments [0]:
 
 - unknown [17]: '(' [4], ')' [4], '{' [2], '3' [2], '}' [2], '3.33' [1], '++' [1], '+=' [1],
