@@ -73,7 +73,7 @@ It is possible to combine blacklists and whitelists in a single category, at the
       <string>+<string>
     </whitelist>
   </category>
-
+</language>
 ```
 
 For an XML format cheatsheet, please refer to [XML Syntax Rules](https://www.ibm.com/support/knowledgecenter/SSRJDU/reference/SCN_XML_Syntax_Rules.html).
